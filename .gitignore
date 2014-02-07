@@ -1,0 +1,10 @@
+# Created by http://gitignore.io
+
+### Maven ###
+target/
+
+### IntelliJ ###
+*.iml
+*.ipr
+*.iws
+.idea/
