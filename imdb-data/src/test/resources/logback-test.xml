@@ -1,0 +1,14 @@
+<configuration>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>[TEST] %-30(%d [%thread]) %-5level %logger [%line] - %msg %xEx{3}%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.springframework.jdbc" level="WARN"/>
+
+  <root>
+    <level value="INFO"/>
+    <appender-ref ref="CONSOLE"/>
+  </root>
+</configuration>

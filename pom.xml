@@ -28,6 +28,7 @@
   <modules>
     <module>imdb-sql</module>
     <module>imdb-xml</module>
+    <module>imdb-data</module>
   </modules>
 
   <dependencyManagement>
