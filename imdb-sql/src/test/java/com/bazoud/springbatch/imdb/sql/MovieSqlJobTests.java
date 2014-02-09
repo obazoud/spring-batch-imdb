@@ -1,4 +1,4 @@
-package com.bazoud.springbatch.towns.batch;
+package com.bazoud.springbatch.imdb.sql;
 
 import com.bazoud.springbatch.imdb.sql.configuration.MovieJobConfiguration;
 import com.bazoud.springbatch.imdb.sql.configuration.StandaloneInfrastructureConfiguration;
