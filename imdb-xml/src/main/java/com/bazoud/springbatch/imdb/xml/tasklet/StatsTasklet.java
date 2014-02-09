@@ -6,13 +6,19 @@ import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class StatsTasklet implements Tasklet {
   private static final Logger LOG = LoggerFactory.getLogger(StatsTasklet.class);
+  private JdbcTemplate jdbcTemplate;
 
-  @Override
+    public StatsTasklet(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
   public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-    LOG.warn("StatsTaslet : ");
+    LOG.warn("StatsTaslet : " + jdbcTemplate.queryForInt("select count(*) from MOVIE"));
     return RepeatStatus.FINISHED;
   }
 }

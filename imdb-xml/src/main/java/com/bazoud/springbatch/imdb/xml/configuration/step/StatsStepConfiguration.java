@@ -26,7 +26,7 @@ public class StatsStepConfiguration {
 
   @Bean(name = "statsTasklet")
   public Tasklet tasklet() {
-    StatsTasklet tasklet = new StatsTasklet();
+    StatsTasklet tasklet = new StatsTasklet(infrastructureConfiguration.jdbcTemplate());
     return tasklet;
   }
 
