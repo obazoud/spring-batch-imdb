@@ -17,7 +17,6 @@ import org.springframework.batch.item.file.NonTransientFlatFileException;
 import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
 import org.springframework.batch.item.file.separator.RecordSeparatorPolicy;
 import org.springframework.batch.item.file.separator.SimpleRecordSeparatorPolicy;
-import org.springframework.batch.item.file.transform.SkipHeaderPolicy;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;

@@ -1,7 +1,5 @@
 package com.bazoud.springbatch.imdb.data.reader;
 
-import org.springframework.batch.item.file.transform.SkipHeaderPolicy;
-
 public class LimitSkipHeaderPolicy implements SkipHeaderPolicy {
   private int limit;
 

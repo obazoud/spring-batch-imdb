@@ -1,27 +1,26 @@
 package com.bazoud.springbatch.imdb.data.configuration.step;
 
-import com.bazoud.springbatch.imdb.data.configuration.InfrastructureConfiguration;
-import com.bazoud.springbatch.imdb.data.domain.Movie;
-import com.bazoud.springbatch.imdb.data.reader.ImdbMovieLineTokenizer;
-import com.bazoud.springbatch.imdb.data.reader.ImdbSkipHeaderPolicy;
-import com.bazoud.springbatch.imdb.data.reader.MyFileFlatReader;
-import com.google.common.collect.ImmutableMap;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.batch.item.file.transform.RegexLineTokenizer;
-import org.springframework.batch.item.file.transform.SkipHeaderPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.xstream.XStreamMarshaller;
+
+import com.bazoud.springbatch.imdb.data.configuration.InfrastructureConfiguration;
+import com.bazoud.springbatch.imdb.data.domain.Movie;
+import com.bazoud.springbatch.imdb.data.reader.ImdbMovieLineTokenizer;
+import com.bazoud.springbatch.imdb.data.reader.ImdbSkipHeaderPolicy;
+import com.bazoud.springbatch.imdb.data.reader.MyFileFlatReader;
+import com.bazoud.springbatch.imdb.data.reader.SkipHeaderPolicy;
+import com.google.common.collect.ImmutableMap;
 
 @Configuration
 public class MovieStepConfiguration {

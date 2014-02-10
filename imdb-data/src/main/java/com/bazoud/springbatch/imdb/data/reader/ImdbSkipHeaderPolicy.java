@@ -1,7 +1,5 @@
 package com.bazoud.springbatch.imdb.data.reader;
 
-import org.springframework.batch.item.file.transform.SkipHeaderPolicy;
-
 public class ImdbSkipHeaderPolicy implements SkipHeaderPolicy {
   private String marker;
   private int skip;

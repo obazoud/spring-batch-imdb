@@ -21,21 +21,18 @@ public class ImdbMovieLineTokenizer extends RegexLineTokenizer implements Initia
 
   @Override
   public void afterPropertiesSet() throws Exception {
-    // "#1 Single" (2006)                                      2006-????
-    // "#1 Single" (2006) {Cats and Dogs (#1.4)}               2006
-    // "A Punt, a Pass, and a Prayer" (1968) (TV)                1968
-    // "The Terminator" (1984)                                   1984
-
-    // "Movie name" (year) (serie TV) {episode name (#season.episode)} (year) (comment)
-    // (TV) : TV movie
-    // (V)  : made for video movie
-
-    setRegex("^"
+    // "Movie name" (year) (TV|V) {episode name (#season.episode)} (year) (comment)
+    String pattern = "^"
         + MOVIE_NAME_PATTERN
         + "\\s+"
         + RELEASE_DATE_PATTERN
         + "\\s+"
+        + TV_PATTERN
+        + "\\s+"
+        + EPISODE_PATTERN
+        + "\\s+"
         + BROADCAST_DATE_PATTERN
-        + "$");
+        + "$";
+    setRegex(pattern);
   }
 }
