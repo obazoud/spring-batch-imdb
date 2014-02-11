@@ -13,9 +13,10 @@ public class ImdbMovieLineTokenizer extends RegexLineTokenizer implements Initia
 
   private String TV_PATTERN = "(?:\\s+\\(((?:V)||(?:TV)||(?:VG))\\))?";
 
-  private String EPISODE_PATTERN = "(?:\\s+\\{(.+?)?(?:\\s+\\((?:#(?:(\\d+?)\\.(\\d+?)))?(\\d{4}-\\d{2}-\\d{2})?\\))?\\})?";
+  // private String EPISODE_PATTERN = "(?:\\s+\\{(.+?)?(?:\\s+\\((?:#(?:(\\d+?)\\.(\\d+?)))?(\\d{4}-\\d{2}-\\d{2})?\\))?\\})?";
+  private String EPISODE_PATTERN = "(?:\\s+\\{([^(]+?)?\\s*(?:(?:\\(#(?:(\\d*)\\.(\\d*)\\)))?(?:(?:\\((\\d{4}-\\d{2}-\\d{2})\\)))?)?\\})?(?:\\s+\\{\\{(.+?)?\\}\\})?";
 
-  private String MOVIE_STATE = "(?:\\s+\\{\\{?(.+?)?\\}\\}?)?";
+  private String MOVIE_STATE = "(?:\\s+\\{\\{(.+?)?\\}\\})?";
 
   private String BROADCAST_DATE_PATTERN = "(?:\\s+(\\d{4}||\\?{4})(?:\\-(?:(\\d{4}||\\?{4})))?)";
 
