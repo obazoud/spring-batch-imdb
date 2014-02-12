@@ -31,7 +31,7 @@ public class ImdbMovieLineTokenizer extends RegexLineTokenizer implements Initia
         + MOVIE_STATE
         + BROADCAST_DATE_PATTERN
         + "$";
-    LOG.info(pattern);
+    LOG.debug(pattern);
     setRegex(pattern);
   }
 }
