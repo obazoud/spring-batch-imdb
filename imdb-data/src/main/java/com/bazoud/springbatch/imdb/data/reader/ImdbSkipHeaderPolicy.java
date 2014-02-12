@@ -14,16 +14,13 @@ public class ImdbSkipHeaderPolicy implements SkipHeaderPolicy {
 
   @Override
   public boolean shouldSkip(String line, int linesToSkip) {
-    if (!found) {
+    if (found) {
+      return (markerLine + skip) >= linesToSkip;
+    } else {
       if (marker.equals(line)) {
         found = true;
         markerLine = linesToSkip;
       }
-    }
-
-    if (found) {
-      return (markerLine + skip) < linesToSkip;
-    } else {
       return true;
     }
   }

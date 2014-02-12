@@ -1,12 +1,7 @@
 package com.bazoud.springbatch.imdb.data.reader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.charset.Charset;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ReaderNotOpenException;
 import org.springframework.batch.item.file.BufferedReaderFactory;
 import org.springframework.batch.item.file.DefaultBufferedReaderFactory;
@@ -24,18 +19,22 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.Charset;
+
 /**
- * Restartable {@link ItemReader} that reads lines from input {@link #setResource(Resource)}. Line is defined by the
- * {@link #setRecordSeparatorPolicy(RecordSeparatorPolicy)} and mapped to item using {@link #setLineMapper(LineMapper)}.
- * If an exception is thrown during line mapping it is rethrown as {@link FlatFileParseException} adding information
- * about the problematic line and its line number.
+ * Inspired by FlatFileItemReader.
+ * Features:
+ * - SkipHeaderPolicy management
+ * - SLF4j logger
  *
  * @author Robert Kasanicky
  */
-public class MyFileFlatReader<T> extends AbstractItemCountingItemStreamItemReader<T> implements
+public class ImdbFlatFileItemReader<T> extends AbstractItemCountingItemStreamItemReader<T> implements
     ResourceAwareItemReaderItemStream<T>, InitializingBean {
 
-  private static final Logger LOG = LoggerFactory.getLogger(MyFileFlatReader.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ImdbFlatFileItemReader.class);
 
   // default encoding for input files
   public static final String DEFAULT_CHARSET = Charset.defaultCharset().name();
@@ -64,8 +63,8 @@ public class MyFileFlatReader<T> extends AbstractItemCountingItemStreamItemReade
 
   private BufferedReaderFactory bufferedReaderFactory = new DefaultBufferedReaderFactory();
 
-  public MyFileFlatReader() {
-    setName(ClassUtils.getShortName(MyFileFlatReader.class));
+  public ImdbFlatFileItemReader() {
+    setName(ClassUtils.getShortName(ImdbFlatFileItemReader.class));
   }
 
   /**
@@ -264,30 +263,28 @@ public class MyFileFlatReader<T> extends AbstractItemCountingItemStreamItemReade
     }
 
     reader = bufferedReaderFactory.create(resource, encoding);
-    if (reader.markSupported()) {
-      int readAheadLimit = 0;
-      int i = 0;
-      boolean shouldSkip = true;
-      while (shouldSkip) {
-        reader.mark(readAheadLimit);
-        String line = readLine();
-        shouldSkip = skipHeaderPolicy.shouldSkip(line, i++);
-        if (shouldSkip) {
-          if (skippedLinesCallback != null) {
-            skippedLinesCallback.handleLine(line);
+
+    if (skipHeaderPolicy != null) {
+      if (reader.markSupported()) {
+        int readAheadLimit = 0;
+        int i = 0;
+        boolean shouldSkip = true;
+        while (shouldSkip) {
+          reader.mark(readAheadLimit);
+          String line = readLine();
+          shouldSkip = skipHeaderPolicy.shouldSkip(line, i++);
+          if (shouldSkip) {
+            if (skippedLinesCallback != null) {
+              skippedLinesCallback.handleLine(line);
+            }
+            readAheadLimit += line.length();
           }
-          readAheadLimit += line.length();
         }
+        reader.reset();
+      } else {
+        throw new RuntimeException("This reader does not support 'mark' ");
       }
-      reader.reset();
-    }/* else {
-      for (int i = 0; i < linesToSkip; i++) {
-        String line = readLine();
-        if (skippedLinesCallback != null) {
-          skippedLinesCallback.handleLine(line);
-        }
-      }
-    }*/
+    }
     noInput = false;
   }
 

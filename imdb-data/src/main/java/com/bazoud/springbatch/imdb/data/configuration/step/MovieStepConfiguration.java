@@ -1,5 +1,12 @@
 package com.bazoud.springbatch.imdb.data.configuration.step;
 
+import com.bazoud.springbatch.imdb.data.configuration.InfrastructureConfiguration;
+import com.bazoud.springbatch.imdb.data.domain.Movie;
+import com.bazoud.springbatch.imdb.data.reader.ImdbFlatFileItemReader;
+import com.bazoud.springbatch.imdb.data.reader.ImdbMovieLineTokenizer;
+import com.bazoud.springbatch.imdb.data.reader.ImdbSkipHeaderPolicy;
+import com.bazoud.springbatch.imdb.data.reader.SkipHeaderPolicy;
+import com.google.common.collect.ImmutableMap;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
@@ -13,14 +20,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.xstream.XStreamMarshaller;
-
-import com.bazoud.springbatch.imdb.data.configuration.InfrastructureConfiguration;
-import com.bazoud.springbatch.imdb.data.domain.Movie;
-import com.bazoud.springbatch.imdb.data.reader.ImdbMovieLineTokenizer;
-import com.bazoud.springbatch.imdb.data.reader.ImdbSkipHeaderPolicy;
-import com.bazoud.springbatch.imdb.data.reader.MyFileFlatReader;
-import com.bazoud.springbatch.imdb.data.reader.SkipHeaderPolicy;
-import com.google.common.collect.ImmutableMap;
 
 @Configuration
 public class MovieStepConfiguration {
@@ -41,7 +40,7 @@ public class MovieStepConfiguration {
 
   @Bean(name = "movieReader")
   public ItemReader<Movie> reader() throws Exception {
-    MyFileFlatReader<Movie> reader = new MyFileFlatReader<>();
+    ImdbFlatFileItemReader<Movie> reader = new ImdbFlatFileItemReader<>();
     reader.setEncoding("ISO-8959-1");
     reader.setSkipHeaderPolicy(skipHeaderPolicy());
 
