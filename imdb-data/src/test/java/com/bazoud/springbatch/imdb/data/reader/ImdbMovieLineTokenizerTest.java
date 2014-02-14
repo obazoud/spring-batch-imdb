@@ -7,14 +7,13 @@ import org.springframework.batch.item.file.transform.FieldSet;
 import static org.junit.Assert.assertEquals;
 
 public class ImdbMovieLineTokenizerTest {
-  private final int FIELD_COUNT = 12;
+  private final int FIELD_COUNT = 11;
   private ImdbMovieLineTokenizer lineTokenizer;
   private int index = 0;
 
   @Before
   public void setUp() throws Exception {
     lineTokenizer = new ImdbMovieLineTokenizer();
-    lineTokenizer.afterPropertiesSet();
     index = 0;
   }
 
@@ -23,7 +22,6 @@ public class ImdbMovieLineTokenizerTest {
     FieldSet fieldSet = lineTokenizer.tokenize("\"#1 Single\" (2006)\t\t\t\t\t2006-????");
     assertFiedEquals("#1 Single", fieldSet, index++);
     assertFiedEquals("2006", fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
@@ -48,7 +46,6 @@ public class ImdbMovieLineTokenizerTest {
     assertFiedEquals("4", fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("2006", fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertEquals(FIELD_COUNT, index);
@@ -66,7 +63,6 @@ public class ImdbMovieLineTokenizerTest {
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("2004-09-04", fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("2004", fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertEquals(FIELD_COUNT, index);
@@ -80,7 +76,6 @@ public class ImdbMovieLineTokenizerTest {
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("Metric Time", fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
@@ -102,7 +97,6 @@ public class ImdbMovieLineTokenizerTest {
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("1968", fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertEquals(FIELD_COUNT, index);
@@ -113,7 +107,6 @@ public class ImdbMovieLineTokenizerTest {
     FieldSet fieldSet = lineTokenizer.tokenize("\"The Terminator\" (1984)\t\t\t\t\t1984");
     assertFiedEquals("The Terminator", fieldSet, index++);
     assertFiedEquals("1984", fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
@@ -138,7 +131,6 @@ public class ImdbMovieLineTokenizerTest {
     assertFiedEquals("14", fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("SUSPENDED", fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("????", fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertEquals(FIELD_COUNT, index);
@@ -156,7 +148,6 @@ public class ImdbMovieLineTokenizerTest {
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("SUSPENDED", fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals("????", fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertEquals(FIELD_COUNT, index);
@@ -168,7 +159,6 @@ public class ImdbMovieLineTokenizerTest {
     assertFiedEquals("Wanted", fieldSet, index++);
     assertFiedEquals("2011", fieldSet, index++);
     assertFiedEquals("IV", fieldSet, index++);
-    assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);
     assertFiedEquals(null, fieldSet, index++);

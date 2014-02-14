@@ -3,35 +3,52 @@ package com.bazoud.springbatch.imdb.data.reader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.file.transform.RegexLineTokenizer;
-import org.springframework.beans.factory.InitializingBean;
 
-public class ImdbMovieLineTokenizer extends RegexLineTokenizer implements InitializingBean {
+public class ImdbMovieLineTokenizer extends RegexLineTokenizer {
   private static final Logger LOG = LoggerFactory.getLogger(ImdbMovieLineTokenizer.class);
 
-  private String MOVIE_NAME_PATTERN = "\"(.+?)\"";
+  private final String MOVIE_NAME_PATTERN = "\"(.+?)\"";
 
-  private String RELEASE_DATE_PATTERN = "\\s+\\((?:(\\d{4}||\\?{4}))(?:\\/([IXV]+))?\\)";
+  private final String RELEASE_DATE_PATTERN = "\\s+\\((?:(\\d{4}||\\?{4}))(?:\\/([IXV]+))?\\)";
 
-  private String TV_PATTERN = "(?:\\s+\\(((?:V)||(?:TV)||(?:VG))\\))?";
+  private final String TV_PATTERN = "(?:\\s+\\(((?:V)||(?:TV)||(?:VG))\\))?";
 
-  private String EPISODE_PATTERN = "(?:\\s+\\{([^(]+?)?\\s*(?:(?:\\(#(?:(\\d*)\\.(\\d*)\\)))?(?:(?:\\((\\d{4}-\\d{2}-\\d{2})\\)))?)?\\})?(?:\\s+\\{\\{(.+?)?\\}\\})?";
+  private final String EPISODE_PATTERN = "(?:\\s+\\{([^(]+?)?\\s*(?:(?:\\(#(?:(\\d*)\\.(\\d*)\\)))?(?:(?:\\((\\d{4}-\\d{2}-\\d{2})\\)))?)?\\})?";
 
-  private String MOVIE_STATE = "(?:\\s+\\{\\{(.+?)?\\}\\})?";
+  private final String MOVIE_STATE = "(?:\\s+\\{\\{(.+?)?\\}\\})?";
 
-  private String BROADCAST_DATE_PATTERN = "(?:\\s+(\\d{4}||\\?{4})(?:\\-(?:(\\d{4}||\\?{4})))?)";
+  private final String BROADCAST_DATE_PATTERN = "(?:\\s+(\\d{4}||\\?{4})(?:\\-(?:(\\d{4}||\\?{4})))?)";
+
+  // "Title" (releaseDate/stuff) (type) {episodeTitle (#episodeSeason.episodeNumber) (episodeDate)} {{state}} (broadcastDateBegin-broadcastDateEnd)
+  private final String PATTERN = "^"
+      + MOVIE_NAME_PATTERN
+      + RELEASE_DATE_PATTERN
+      + TV_PATTERN
+      + EPISODE_PATTERN
+      + MOVIE_STATE
+      + BROADCAST_DATE_PATTERN
+      + "$";
+
+  public ImdbMovieLineTokenizer() {
+    LOG.debug(PATTERN);
+    setRegex(PATTERN);
+    setNames(new String[] {
+        "title",
+        "releaseDate",
+        "stuff",
+        "type",
+        "episodeTitle",
+        "episodeSeason",
+        "episodeNumber",
+        "episodeDate",
+        "state",
+        "broadcastDateBegin",
+        "broadcastDateEnd"
+    });
+  }
 
   @Override
-  public void afterPropertiesSet() throws Exception {
-    // "Title" (release) (type) {episode title (#season number.episode number) (episode date)} (year-year) (comment)
-    String pattern = "^"
-        + MOVIE_NAME_PATTERN
-        + RELEASE_DATE_PATTERN
-        + TV_PATTERN
-        + EPISODE_PATTERN
-        + MOVIE_STATE
-        + BROADCAST_DATE_PATTERN
-        + "$";
-    LOG.debug(pattern);
-    setRegex(pattern);
+  public String toString() {
+    return "http://www.regexper.com/#" + PATTERN;
   }
 }
