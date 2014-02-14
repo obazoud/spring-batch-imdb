@@ -136,6 +136,13 @@
       </dependency>
 
       <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${guava.lombok}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${slf4j.version}</version>
@@ -193,6 +200,9 @@
             <source>1.7</source>
             <target>1.7</target>
             <encoding>UTF-8</encoding>
+            <annotationProcessors>
+              <annotationProcessor>lombok.core.AnnotationProcessor</annotationProcessor>
+            </annotationProcessors>
           </configuration>
         </plugin>
         <plugin>
@@ -261,6 +271,8 @@
     <mysql.version>5.1.29</mysql.version>
     <junit.version>4.11</junit.version>
     <h2.version>1.3.175</h2.version>
+    <guava.lombok>1.12.4</guava.lombok>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <source.encoding>UTF-8</source.encoding>

@@ -16,6 +16,7 @@ import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -23,6 +24,8 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 
 @Configuration
 public class MovieStepConfiguration {
+  private static final String OVERRIDDEN_BY_EXPRESSION = null;
+
   @Autowired
   private StepBuilderFactory stepBuilders;
 
@@ -33,25 +36,26 @@ public class MovieStepConfiguration {
   public Step step() throws Exception {
     return stepBuilders.get("movieStep")
         .<Movie, Movie>chunk(50)
-        .reader(reader())
+        .reader(reader(OVERRIDDEN_BY_EXPRESSION))
         .writer(writer())
         .build();
   }
 
   @Bean(name = "movieReader")
-  public ItemReader<Movie> reader() throws Exception {
+  public ItemReader<Movie> reader(
+      @Value("#{jobParameters[pathToMoviesFile]}") String pathToMoviesFile) throws Exception {
     ImdbFlatFileItemReader<Movie> reader = new ImdbFlatFileItemReader<>();
     reader.setEncoding("ISO-8959-1");
     reader.setSkipHeaderPolicy(skipHeaderPolicy());
 
-    DefaultLineMapper<Movie> lineMapper = new DefaultLineMapper<Movie>();
+    DefaultLineMapper<Movie> lineMapper = new DefaultLineMapper<>();
     lineMapper.setLineTokenizer(new ImdbMovieLineTokenizer());
 
-    BeanWrapperFieldSetMapper<Movie> fieldSetMapper = new BeanWrapperFieldSetMapper<Movie>();
+    BeanWrapperFieldSetMapper<Movie> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
     lineMapper.setFieldSetMapper(fieldSetMapper);
 
     reader.setLineMapper(lineMapper);
-    reader.setResource(new FileSystemResource("/tmp/movies.xml"));
+    reader.setResource(new FileSystemResource(pathToMoviesFile));
     return reader;
   }
 

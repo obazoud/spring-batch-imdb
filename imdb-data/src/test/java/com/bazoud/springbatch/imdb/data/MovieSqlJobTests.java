@@ -49,7 +49,7 @@ public class MovieSqlJobTests {
   @Test
   public void testLaunchJob() throws Exception {
     JobParameters jobParameters = new JobParametersBuilder()
-        .addLong("timestamp", new Date().getTime())
+        .addString("pathToMoviesFile", "xxx")
         .toJobParameters();
     JobExecution jobExecution = jobLauncher.run(job, jobParameters);
     assertThat(jobExecution.getExitStatus().getExitCode(), is(ExitStatus.COMPLETED.getExitCode()));
